@@ -1,0 +1,30 @@
+<span id="event_${event.id}_clock" class="coupon-event-clock bir-event" rel='{"id":"${event.id}", "time":"${event.dateAndTime}", "timeUTC":"${event.dateAndTimeTzUTC}", "period":"${periodStartTime}", "periodUTC":"${periodStartTimeUTC}", "periodType": "${period}"}'>
+	<span class="block liveIcon ml4"></span>
+	<span id="event_${event.id}_time" class="coupon-event-time"><webkit:outputDateTime date="${event.dateAndTime}" format="timecolumn"/><span id="event_${event.id}_period">${period}</span></span>
+</span>
+<span class="cl w100p coupon-event-teams pb2 inline">
+	<span id="event_${event.id}_home" class="c pb1 ml3 coupon-event-score-box inline" >${beforeScore}</span>
+	<span class="f tc inline coupon-event-width">${before}</span>
+</span>
+<span class="cl w100p coupon-event-teams pb2 inline">
+	<span id="event_${event.id}_away" class="c pb1 ml3 coupon-event-score-box inline" >${afterScore}</span>
+	<span class="f tc inline coupon-event-width" >${after}</span>
+</span>
+
+<span id="event_${event.id}_clock" class="coupon-event-clock">
+	<span class="block calenderIcon ml6 <c:if test="${!empty event.birScoreString}">ml4</c:if>"></span>
+	<span id="event_${event.id}_time" class="f block c11 ml5 tc dateAndTime"><webkit:outputDateTime date="${event.dateAndTime}" format="couponDateFormat"/></span>
+	<c:if test="${event.specialTypeMBS}">
+		<span class="ml5 c bg7 bb pa1 c1 b p6 bra2 absolute r0 coupon-msb">
+			<span class="c h12 w27 bg8">MBS</span>
+		</span>
+	</c:if>
+</span>
+<span class="cl w100p coupon-event-teams inline <c:if test="${!empty event.birScoreString}">pb2</c:if>">
+	<span id="event_${event.id}_home" class="c pb1 ml3 coupon-event-score-box inline" <c:if test="${empty event.birScoreString}">style="display:none"</c:if>>${beforeScore}</span>
+	<span class="f ml5 tc inline coupon-event-width" >${before}</span>
+</span>
+<span class="cl w100p coupon-event-teams inline <c:if test="${!empty event.birScoreString}">pb2</c:if>">
+	<span id="event_${event.id}_away" class="c pb1 ml3 coupon-event-score-box inline" <c:if test="${empty event.birScoreString}">style="display:none"</c:if>>${afterScore}</span>
+	<span class="f ml5 tc inline coupon-event-width">${after}</span>
+</span>

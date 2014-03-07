@@ -1,17 +1,10 @@
 <html>
 	<head>
-		<title>Api Checker</title>
+		<title>API Checker</title>
 		
 		<link rel="stylesheet" href="css/main.css" />
 		
-		<script type="text/javascript" src=""js/lib/jquery-2.0.3-min.js""></script>
-		<script type="text/javascript" src=""js/lib/underscore-min.js""></script>
-		<script type="text/javascript" src=""js/lib/jquery-tmpl.js""></script>
-		<script type="text/javascript" src=""js/lib/knockout-3.0.0.js""></script>
-		
-		<script type="text/javascript" src=""js/lib/utils.js""></script>
-		
-		<script type="text/javascript" src=""js/app.js""></script>
+		<script data-main="js/main.js" src="js/lib/require-2.1.11.js"></script>
 	</head>
 	
 	<body>
@@ -19,6 +12,45 @@
 			<div class="panel">
 				<div class="pane">
 					<input id="url" type="text" data-bind="value: url" />
+					<input type="file" data-bind="event: { change: load }" />
+					<div id="dropzone" data-bind="dropzone">Drop files here</div>
+					<div id="progressbar"><div class="percent">0%</div></div>
+				</div>
+			</div>
+		</div>
+		<div data-bind="foreach: response">
+			<div class="board">
+				<div class="panel caption">
+					<label class="request">Request</label>
+					<label class="code">Code</label>
+					<label class="message">Message</label>
+					<label class="debug">Debug</label>
+					<label class="provider">Provider</label>
+				</div>
+				<div class="panel">
+					<label class="request" data-bind="text: request"></label>
+					<label class="code" data-bind="text: code"></label>
+					<label class="message" data-bind="text: message"></label>
+					<label class="debug" data-bind="text: debug"></label>
+					<label class="provider" data-bind="text: provider"></label>
+				</div>
+			</div>
+			<div class="board">
+				<div class="panel caption">
+					<label class="id">ID</label>
+					<label class="name">Name</label>
+					<label class="category">Category</label>
+					<label class="sort">Sort</label>
+					<label class="channels">Channels</label>
+					<label class="stake">Default Stake</label>
+				</div>
+				<div class="panel" data-bind="foreach: coupons">
+					<label class="id" data-bind="text: id"></label>
+					<label class="name" data-bind="text: name"></label>
+					<label class="category" data-bind="text: category"></label>
+					<label class="sort" data-bind="text: sort"></label>
+					<label class="channels" data-bind="text: channels"></label>
+					<label class="stake" data-bind="text: defaultStake"></label>
 				</div>
 			</div>
 		</div>

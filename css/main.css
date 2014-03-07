@@ -1,0 +1,71 @@
+#dropzone {
+	border: 2px dashed #bbb;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	padding: 25px;
+	text-align: center;
+	font: 20pt bold 'Vollkorn';
+	color: #bbb;
+}
+#progressbar {
+	margin: 10px 0;
+	padding: 3px;
+	border: 1px solid #000;
+	font-size: 14px;
+	clear: both;
+	opacity: 0;
+	text-align: center;
+	-moz-transition: opacity 1s linear;
+	-o-transition: opacity 1s linear;
+	-webkit-transition: opacity 1s linear;
+}
+#progressbar.loading {
+	opacity: 1.0;
+}
+#progressbar .percent {
+	background-color: #99ccff;
+	height: auto;
+	width: 0;
+}
+#progressbar.error {
+	border-color: #ff0000;
+}
+#progressbar.error .percent {
+	background-color: #ff9999;
+}
+#progressbar.abort .percent {
+	background-color: #ffff66;
+}
+.hidden {
+	display: none;
+}
+.board {
+	/*border: #000066 solid 1px;*/
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
+.board .panel {
+	/*border: #006600 solid 1px;*/
+	display: table-row;
+}
+.board .panel.caption {
+	background-color: #660066;
+	color: white;
+}
+.board .panel.caption > label {
+	padding: 1px 3px;
+}
+.board .panel > label {
+	/*border: #660000 solid 1px;*/
+	display: table-cell;
+	text-align: center;
+	width: 100%;
+}
+.code {
+	color: blue;
+}
+.caption .code {
+	color: white;
+}

@@ -1,3 +1,12 @@
+div {
+	border: #660000 inset 2px;
+	border-radius: 5px;
+	font-size: 12px;
+}
+div div {
+	border: none;
+	border-radius: initial;
+}
 #dropzone {
 	border: 2px dashed #bbb;
 	-moz-border-radius: 5px;
@@ -53,6 +62,7 @@
 .board .panel.caption {
 	background-color: #660066;
 	color: white;
+	font-size: 14px;
 }
 .board .panel.caption > label {
 	padding: 1px 3px;
@@ -68,4 +78,32 @@
 }
 .caption .code {
 	color: white;
+}
+.separator {
+	height: 20px;
+	border: none;
+}
+.panel.coupon {
+	position: relative;
+	background-color: -webkit-linear-gradient(top, #62bb47 0%,#539f3d 100%);
+	background-color: #62bb47;
+	color: #ffffff;
+}
+.panel.coupon .arrow {
+	position: absolute;
+	width: 1em;
+	height: 1em;
+	background-image: url(../images/arrows_white.png);
+	background-position: -1em 0;
+	background-repeat: no-repeat;
+	background-size: 1.7em 1em;
+}
+.panel.coupon.selected .arrow {
+	background-position: 0 0;
+}
+.board.events {
+	background-color: white;
+}
+#xml {
+	display: none;
 }

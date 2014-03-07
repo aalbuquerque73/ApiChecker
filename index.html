@@ -1,23 +1,27 @@
 <html>
-	<head>
-		<title>API Checker</title>
-		
-		<link rel="stylesheet" href="css/main.css" />
-		
-		<script data-main="js/main.js" src="js/lib/require-2.1.11.js"></script>
-	</head>
-	
-	<body>
-		<div id="content">
-			<div class="panel">
-				<div class="pane">
-					<input id="url" type="text" data-bind="value: url" />
-					<input type="file" data-bind="event: { change: load }" />
-					<div id="dropzone" data-bind="dropzone">Drop files here</div>
-					<div id="progressbar"><div class="percent">0%</div></div>
+<head>
+<title>API Checker</title>
+
+<link rel="stylesheet" href="css/main.css" />
+
+<script data-main="js/main.js" src="js/lib/require-2.1.11.js"></script>
+</head>
+
+<body>
+	<div id="content">
+		<div class="panel">
+			<div class="pane">
+				<input id="url" type="text" data-bind="value: url" />
+				<input type="file" data-bind="event: { change: load }" />
+				<div id="dropzone" data-bind="dropzone">Drop files here</div>
+				<div id="progressbar">
+					<div class="percent">0%</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="separator"></div>
+	<div data-bind="if: response().length>0">
 		<div data-bind="foreach: response">
 			<div class="board">
 				<div class="panel caption">
@@ -35,7 +39,7 @@
 					<label class="provider" data-bind="text: provider"></label>
 				</div>
 			</div>
-			<div class="board">
+			<div class="board" data-bind="if: coupons.length>0">
 				<div class="panel caption">
 					<label class="id">ID</label>
 					<label class="name">Name</label>
@@ -44,16 +48,33 @@
 					<label class="channels">Channels</label>
 					<label class="stake">Default Stake</label>
 				</div>
-				<div class="panel" data-bind="foreach: coupons">
+				<div class="panel coupon" data-bind="foreach: coupons">
+					<div class="arrow"></div>
 					<label class="id" data-bind="text: id"></label>
 					<label class="name" data-bind="text: name"></label>
 					<label class="category" data-bind="text: category"></label>
 					<label class="sort" data-bind="text: sort"></label>
 					<label class="channels" data-bind="text: channels"></label>
 					<label class="stake" data-bind="text: defaultStake"></label>
+					<div class="board events" data-bind="foreach: events">
+						<div class="panel event">
+							<label class="name" data-bind="text: typeName"></label>
+							<label class="id" data-bind="text: id"></label>
+							<label class="order" data-bind="text: displayOrder"></label>
+							<label class="date" data-bind="text: date"></label>
+							<label class="time" data-bind="text: time"></label>
+							<label class="suspend" data-bind="text: suspend"></label>
+							<label class="sort" data-bind="text: sort"></label>
+							<label class="status" data-bind="text: status"></label>
+							<label class="lastUpdateDate" data-bind="text: lastUpdateDate"></label>
+							<label class="lastUpdateTime" data-bind="text: lastUpdateTime"></label>
+						</div>
+					</div>
 				</div>
 			</div>
+			<div class="separator" data-bind="if: $index>0"></div>
 		</div>
-		<div id="xml"></div>
-	</body>
+	</div>
+	<div id="xml"></div>
+</body>
 </html>

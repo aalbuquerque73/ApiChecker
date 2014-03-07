@@ -2,19 +2,66 @@ define(['jquery','underscore','knockout','utils'],
 function($,_,ko,U) {
 	$.event.props.push("dataTransfer");
 	
+	function readEvents(element) {
+		var events = [];
+		element.each(function() {
+			var item = $(this);
+			console.log("[readEvents", arguments);
+			var properties = [
+			        "classId",
+			        "typeId",
+			        "typeName",
+			        "id",
+			        "displayOrder",
+			        "name",
+			        "url",
+			        "date",
+			        "time",
+			        "betTillDate",
+			        "betTillTime",
+			        "suspend",
+			        "sort",
+			        "status",
+			        "channels",
+			        "country",
+			        "raceNumber",
+			        "flags",
+			        "lastUpdateDate",
+			        "lastUpdateTime",
+			        "bankerMaxPrice",
+			        "bankerMaxPriceDecimal",
+			        "bankerMinPrice",
+			        "bankerMinPriceDecimal",
+			        "bankerMinEvents",
+			        "bankerMaxEvents"
+			    ];
+			var event = {};
+			_.each(properties, function(prop) {
+				event[prop] = item.attr(prop);
+			});
+			events.push(event);
+		});
+		return events;
+	}
 	function readCoupon(element) {
 		var coupons = [];
 		element.each(function() {
 			var item = $(this);
 			console.log("[readCoupon]", arguments);
-			coupons.push({
-				id: item.attr('id'),
-				name: item.attr('name'),
-				category: item.attr('category'),
-				sort: item.attr('sort'),
-				channels: item.attr('channels'),
-				defaultStake: item.attr('defaultStake')
+			var properties = [
+			        "id",
+			        "name",
+			        "category",
+			        "sort",
+			        "channels",
+			        "defaultStake"
+			    ];
+			var coupon = {};
+			_.each(properties, function(prop) {
+				coupon[prop] = item.attr(prop);
 			});
+			coupon.events = readEvents(item.find('event'));
+			coupons.push(coupon);
 		});
 		return coupons;
 	}

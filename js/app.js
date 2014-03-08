@@ -6,7 +6,6 @@ function($,_,ko,U) {
 		var events = [];
 		element.each(function() {
 			var item = $(this);
-			console.log("[readEvents", arguments);
 			var properties = [
 			        "classId",
 			        "typeId",
@@ -39,6 +38,7 @@ function($,_,ko,U) {
 			_.each(properties, function(prop) {
 				event[prop] = item.attr(prop);
 			});
+			console.log("[readEvents", arguments, event);
 			events.push(event);
 		});
 		return events;
@@ -140,7 +140,6 @@ function($,_,ko,U) {
 			var model = this;
 			this.url = ko.observable();
 			this.response = ko.observableArray();
-			
 			ko.bindingHandlers.dropzone = {
 				init: function(element, valueAccessor) {
 					var $element = $(element);
@@ -164,6 +163,14 @@ function($,_,ko,U) {
 					
 				}
 			};
+			ko.bindingHandlers.filter = {
+				init: function() {
+					console.log("[filter:init]", arguments);
+				},
+				update: function() {
+					console.log("[filter:update]", arguments);
+				}
+			};
 		},
 		
 		load: function(model, event) {
@@ -175,9 +182,17 @@ function($,_,ko,U) {
 		},
 		
 		start: function() {
+			var self = this;
 			$(function() {
-				ko.applyBindings(new MainViewModel());
+				ko.applyBindings(self);
 			});
+		},
+		
+		// Events
+		click: function(object, event) {
+			console.log("[ViewModel:click]", arguments);
+			$('#coupon_'+object.id).toggleClass('selected');
+			$('.coupon_'+object.id).fadeToggle('fast');
 		}
 	};
 	

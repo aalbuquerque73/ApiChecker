@@ -22,16 +22,16 @@
 	</div>
 	<div class="separator"></div>
 	<div data-bind="if: response().length>0">
-		<div data-bind="foreach: response">
-			<div class="board">
-				<div class="panel caption">
+		<div class="board" data-bind="foreach: response">
+			<div class="panel">
+				<div class="pane caption">
 					<label class="request">Request</label>
 					<label class="code">Code</label>
 					<label class="message">Message</label>
 					<label class="debug">Debug</label>
 					<label class="provider">Provider</label>
 				</div>
-				<div class="panel">
+				<div class="pane">
 					<label class="request" data-bind="text: request"></label>
 					<label class="code" data-bind="text: code"></label>
 					<label class="message" data-bind="text: message"></label>
@@ -39,8 +39,8 @@
 					<label class="provider" data-bind="text: provider"></label>
 				</div>
 			</div>
-			<div class="board" data-bind="if: coupons.length>0">
-				<div class="panel caption">
+			<div class="panel" data-bind="if: coupons.length>0">
+				<div class="pane caption">
 					<label class="id">ID</label>
 					<label class="name">Name</label>
 					<label class="category">Category</label>
@@ -48,27 +48,40 @@
 					<label class="channels">Channels</label>
 					<label class="stake">Default Stake</label>
 				</div>
-				<div class="panel coupon" data-bind="foreach: coupons">
-					<div class="arrow"></div>
-					<label class="id" data-bind="text: id"></label>
-					<label class="name" data-bind="text: name"></label>
-					<label class="category" data-bind="text: category"></label>
-					<label class="sort" data-bind="text: sort"></label>
-					<label class="channels" data-bind="text: channels"></label>
-					<label class="stake" data-bind="text: defaultStake"></label>
-					<div class="board events" data-bind="foreach: events">
-						<div class="panel event">
-							<label class="name" data-bind="text: typeName"></label>
-							<label class="id" data-bind="text: id"></label>
-							<label class="order" data-bind="text: displayOrder"></label>
-							<label class="date" data-bind="text: date"></label>
-							<label class="time" data-bind="text: time"></label>
-							<label class="suspend" data-bind="text: suspend"></label>
-							<label class="sort" data-bind="text: sort"></label>
-							<label class="status" data-bind="text: status"></label>
-							<label class="lastUpdateDate" data-bind="text: lastUpdateDate"></label>
-							<label class="lastUpdateTime" data-bind="text: lastUpdateTime"></label>
-						</div>
+			</div>
+			<div class="board" data-bind="foreach: coupons">
+				<div class="panel coupons">
+					<div class="pane selected coupon" data-bind="click: $root.click, attr: { id: 'coupon_'+id }">
+						<label class="id" data-bind="text: id"></label>
+						<label class="name" data-bind="text: name"></label>
+						<label class="category" data-bind="text: category"></label>
+						<label class="sort" data-bind="text: sort"></label>
+						<label class="channels" data-bind="text: channels"></label>
+						<label class="stake" data-bind="text: defaultStake"></label>
+					</div>
+				</div>
+				<div class="panel events" data-bind="attr: { class: 'panel events coupon_'+id }">
+					<div class="pane caption">
+						<label class="id">ID<span class="arrow"></span></label>
+						<label class="order">Order<span class="arrow"></span></label>
+						<label class="name">Type<span class="arrow"></span></label>
+						<label class="date">Date<span class="arrow"></span></label>
+						<label class="time">Time<span class="arrow"></span></label>
+						<label class="suspend">Suspend<span class="arrow"></span></label>
+						<label class="sort">Sort<span class="arrow"></span></label>
+						<label class="status">Status<span class="arrow"></span></label>
+					</div>
+				</div>
+				<div class="panel events" data-bind="foreach: events, attr: { class: 'panel events coupon_'+id }">
+					<div class="pane events">
+						<label class="id" data-bind="text: id"></label>
+						<label class="order" data-bind="text: displayOrder"></label>
+						<label class="name" data-bind="text: typeName"></label>
+						<label class="date" data-bind="text: date"></label>
+						<label class="time" data-bind="text: time"></label>
+						<label class="suspend" data-bind="text: suspend"></label>
+						<label class="sort" data-bind="text: sort"></label>
+						<label class="status" data-bind="text: status"></label>
 					</div>
 				</div>
 			</div>

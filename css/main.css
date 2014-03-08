@@ -50,26 +50,31 @@ div div {
 	display: none;
 }
 .board {
+	padding: 1px;
+}
+.panel {
 	/*border: #000066 solid 1px;*/
 	display: table;
 	table-layout: fixed;
 	width: 100%;
 }
-.board .panel {
+.panel .pane {
 	/*border: #006600 solid 1px;*/
 	display: table-row;
+	position: relative;
 }
-.board .panel.caption {
+.panel .pane.caption {
 	background-color: #660066;
 	color: white;
 	font-size: 14px;
 }
-.board .panel.caption > label {
+.panel .pane.caption > label {
 	padding: 1px 3px;
 }
-.board .panel > label {
+.panel .pane > label {
 	/*border: #660000 solid 1px;*/
 	display: table-cell;
+	position: relative;
 	text-align: center;
 	width: 100%;
 }
@@ -83,26 +88,38 @@ div div {
 	height: 20px;
 	border: none;
 }
-.panel.coupon {
+.pane.coupon {
 	position: relative;
+	background-color: -webkit-linear-gradient(top, #62bb47 0%,#539f3d 100%);
+	background-color: #539f3d;
+	color: #ffffff;
+}
+.arrow {
+	position: absolute;
+	display: inline-block;
+	top: 0;
+	right: 0;
+	margin: 1px;
+	width: 14px;
+	height: 14px;
+	opacity: .2;
+	background-image: url(../images/arrows_white.png);
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-size: 56px 14px;
+}
+.selected .arrow {
+	background-position: 0 0;
+}
+.panel.events {
+	background-color: white;
+	color: #000066;
+}
+.panel.events .pane.caption {
 	background-color: -webkit-linear-gradient(top, #62bb47 0%,#539f3d 100%);
 	background-color: #62bb47;
 	color: #ffffff;
-}
-.panel.coupon .arrow {
-	position: absolute;
-	width: 1em;
-	height: 1em;
-	background-image: url(../images/arrows_white.png);
-	background-position: -1em 0;
-	background-repeat: no-repeat;
-	background-size: 1.7em 1em;
-}
-.panel.coupon.selected .arrow {
-	background-position: 0 0;
-}
-.board.events {
-	background-color: white;
+	font-size: 10px;
 }
 #xml {
 	display: none;

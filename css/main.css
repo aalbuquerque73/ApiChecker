@@ -108,6 +108,28 @@ div div {
 	background-repeat: no-repeat;
 	background-size: 56px 14px;
 }
+.arrow.on1 {
+	opacity: 1;
+}
+.arrow.on2 {
+	background-position: -29px 0;
+}
+.filter {
+	position: absolute;
+	display: none;
+	top: 0;
+	right: 0;
+	margin: 1px;
+	width: 14px;
+	height: 14px;
+	vertical-align: middle;
+}
+.hover:hover {
+	background-color: rgba(127,127,127, .5);
+}
+label:hover .filter {
+	display: inline-block;
+}
 .selected .arrow {
 	background-position: 0 0;
 }

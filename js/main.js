@@ -26,6 +26,9 @@ requirejs.config({
     		deps: ["template", "underscore", "jquery"],
     		exports: "ko"
     	},
+    	utils: {
+    		exports: 'Utils'
+    	},
     	list: {
     		deps: ['underscore', 'knockout', 'utils'],
     		exports: 'List'

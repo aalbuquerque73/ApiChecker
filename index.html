@@ -51,7 +51,7 @@
 			</div>
 			<div class="board" data-bind="foreach: coupons">
 				<div class="panel coupons">
-					<div class="pane selected coupon" data-bind="click: $root.click, attr: { id: 'coupon_'+id }">
+					<div class="pane selected coupon" data-bind="attr: { id: 'coupon_'+id }">
 						<label class="id" data-bind="text: id"></label>
 						<label class="name" data-bind="text: name"></label>
 						<label class="category" data-bind="text: category"></label>
@@ -62,18 +62,18 @@
 				</div>
 				<div class="panel events" data-bind="attr: { class: 'panel events coupon_'+id }">
 					<div class="pane caption">
-						<label class="id">ID<span class="arrow"></span></label>
-						<label class="order">Order<span class="arrow"></span></label>
-						<label class="name">Type<span class="arrow"></span></label>
-						<label class="date">Date<span class="arrow"></span></label>
-						<label class="time">Time<span class="arrow"></span></label>
-						<label class="suspend">Suspend<span class="arrow"></span></label>
-						<label class="sort">Sort<span class="arrow"></span></label>
-						<label class="status">Status<span class="arrow"></span></label>
+						<label class="id">ID<span class="arrow" rel="id" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
+						<label class="order">Order<span class="arrow" rel="displayOrder" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
+						<label class="name">Type<span class="arrow" rel="typeName" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
+						<label class="date">Date<span class="arrow" rel="date" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
+						<label class="time">Time<span class="arrow" rel="time" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
+						<label class="suspend">Suspend<span class="arrow" rel="suspend" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
+						<label class="sort">Sort<span class="arrow" rel="sort" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
+						<label class="status">Status<span class="arrow" rel="status" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
 					</div>
 				</div>
 				<div class="panel events" data-bind="foreach: events, attr: { class: 'panel events coupon_'+id }">
-					<div class="pane events">
+					<div class="pane events hover" data-bind="visible: _visible">
 						<label class="id" data-bind="text: id"></label>
 						<label class="order" data-bind="text: displayOrder"></label>
 						<label class="name" data-bind="text: typeName"></label>
@@ -81,7 +81,7 @@
 						<label class="time" data-bind="text: time"></label>
 						<label class="suspend" data-bind="text: suspend"></label>
 						<label class="sort" data-bind="text: sort"></label>
-						<label class="status" data-bind="text: status"></label>
+						<label class="status"><span data-bind="text: status"></span><input class="filter" type="checkbox" data-bind="checked: _filterCondition, event: { change: $root.checked.bind($data, 'status') }" /></label>
 					</div>
 				</div>
 			</div>

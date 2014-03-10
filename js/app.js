@@ -1,76 +1,54 @@
-define(['jquery','underscore','knockout','utils'],
-function($,_,ko,U) {
+define(['jquery','underscore','knockout','utils','list'],
+function($,_,ko,U, List) {
 	$.event.props.push("dataTransfer");
 	
-	function readEvents(element) {
-		var events = [];
-		element.each(function() {
-			var item = $(this);
-			var properties = [
-			        "classId",
-			        "typeId",
-			        "typeName",
-			        "id",
-			        "displayOrder",
-			        "name",
-			        "url",
-			        "date",
-			        "time",
-			        "betTillDate",
-			        "betTillTime",
-			        "suspend",
-			        "sort",
-			        "status",
-			        "channels",
-			        "country",
-			        "raceNumber",
-			        "flags",
-			        "lastUpdateDate",
-			        "lastUpdateTime",
-			        "bankerMaxPrice",
-			        "bankerMaxPriceDecimal",
-			        "bankerMinPrice",
-			        "bankerMinPriceDecimal",
-			        "bankerMinEvents",
-			        "bankerMaxEvents"
-			    ];
-			var event = {};
-			_.each(properties, function(prop) {
-				event[prop] = item.attr(prop);
-			});
-			console.log("[readEvents", arguments, event);
-			events.push(event);
-		});
-		return events;
-	}
-	function readCoupon(element) {
-		var coupons = [];
-		element.each(function() {
-			var item = $(this);
-			console.log("[readCoupon]", arguments);
-			var properties = [
-			        "id",
-			        "name",
-			        "category",
-			        "sort",
-			        "channels",
-			        "defaultStake"
-			    ];
-			var coupon = {};
-			_.each(properties, function(prop) {
-				coupon[prop] = item.attr(prop);
-			});
-			coupon.events = readEvents(item.find('event'));
-			coupons.push(coupon);
-		});
-		return coupons;
-	}
 	function loadFile(filename, model) {
 		var progress = $('#progressbar');
 		var progressbar = $('#progressbar .percent');
 		
 		progressbar.css('width', '0%');
 		progressbar.text('0%');
+
+		var properties = [
+			"id",
+			"name",
+			"category",
+			"sort",
+			"channels",
+			"defaultStake",
+			{
+				key: "events",
+				properties: [
+					"classId",
+					"typeId",
+					"typeName",
+					"id",
+					"displayOrder",
+					"name",
+					"url",
+					"date",
+					"time",
+					"betTillDate",
+					"betTillTime",
+					"suspend",
+					"sort",
+					"status",
+					"channels",
+					"country",
+					"racingNumber",
+					"flags",
+					"lastUpdateDate",
+					"lastUpdateTime",
+					"bankerMaxPrice",
+					"bankerMaxPriceDecimal",
+					"bankerMinPrice",
+					"bankerMinPriceDecimal",
+					"bankerMinEvents",
+					"bankerMaxEvents"
+				],
+				element: "event"
+			}
+		];
 		
 		var reader = new FileReader();
 		reader.onload = function(evt) {
@@ -84,7 +62,20 @@ function($,_,ko,U) {
 				message: response.attr('message'),
 				debug: response.attr('debug'),
 				provider: response.attr('provider'),
-				coupons: readCoupon(response.find('coupon'))
+				coupons: List.create(
+						properties,
+						response.find('coupon'),
+						{
+							filter: function() {
+								console.log("[MainViewModel:List:filter]", arguments, this);
+								//this._filterValue();
+							},
+							events: function() {
+								console.log("[MainViewModel:List:events]", arguments, this);
+								var events = [];
+								return this.__events();
+							}
+						})
 			});
 			
 			setTimeout(function() {
@@ -193,6 +184,43 @@ function($,_,ko,U) {
 			console.log("[ViewModel:click]", arguments);
 			$('#coupon_'+object.id).toggleClass('selected');
 			$('.coupon_'+object.id).fadeToggle('fast');
+		},
+		
+		sort: function(object, event) {
+			var target = $(event.target);
+			var field = target.attr('rel');
+			var applyTo = target.attr('applyTo');
+			console.log("[ViewModel:sort]", arguments, field, applyTo);
+			var selected = ko.unwrap(this._selected);
+			if(selected && !selected.is(target)) {
+				console.log("[ViewModel:sort]", "cleanup", selected);
+				selected.removeClass("on1 on2");
+			}
+			if(!target.hasClass('on1')) {
+				console.log("[ViewModel:sort]", "setting 'on1' in", target);
+				target.addClass("on1");
+				this[applyTo].sort(function(left, right) {
+					return ko.unwrap(left[field]).localeCompare(ko.unwrap(right[field]));
+				});
+			} else if(!target.hasClass('on2')) {
+				console.log("[ViewModel:sort]", "setting 'on2' in", target);
+				target.addClass("on2");
+				this[applyTo].sort(function(left, right) {
+					return ko.unwrap(right[field]).localeCompare(ko.unwrap(left[field]));
+				});
+			} else {
+				console.log("[ViewModel:sort]", "clearing 'on*' in", target);
+				target.removeClass("on1 on2");
+				this[applyTo].sort(function(left, right) {
+					return (left._order==right._order?0:left._order<right._order?-1:1);
+				});
+				target = null;
+			}
+			this._selected(target);
+		},
+		
+		checked: function() {
+			console.log("[MainViewModel:checked]", arguments);
 		}
 	};
 	

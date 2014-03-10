@@ -51,16 +51,17 @@
 			</div>
 			<div class="board" data-bind="foreach: coupons">
 				<div class="panel coupons">
-					<div class="pane selected coupon" data-bind="attr: { id: 'coupon_'+id }">
+					<div class="pane selected coupon" data-bind="attr: { id: 'coupon_'+id() }">
 						<label class="id" data-bind="text: id"></label>
 						<label class="name" data-bind="text: name"></label>
 						<label class="category" data-bind="text: category"></label>
 						<label class="sort" data-bind="text: sort"></label>
 						<label class="channels" data-bind="text: channels"></label>
 						<label class="stake" data-bind="text: defaultStake"></label>
+						<div class="remove-filter" data-bind="if: _filterVisible"><button data-bind="click: $root.removeFilter">Remove Filter</button></div>
 					</div>
 				</div>
-				<div class="panel events" data-bind="attr: { class: 'panel events coupon_'+id }">
+				<div class="panel events" data-bind="attr: { class: 'panel events coupon_'+id() }">
 					<div class="pane caption">
 						<label class="id">ID<span class="arrow" rel="id" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
 						<label class="order">Order<span class="arrow" rel="displayOrder" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
@@ -72,15 +73,15 @@
 						<label class="status">Status<span class="arrow" rel="status" data-bind="click: $root.sort, attr: { applyTo: 'events' }"></span></label>
 					</div>
 				</div>
-				<div class="panel events" data-bind="foreach: events, attr: { class: 'panel events coupon_'+id }">
+				<div class="panel events" data-bind="foreach: events, attr: { class: 'panel events coupon_'+id() }">
 					<div class="pane events hover" data-bind="visible: _visible">
-						<label class="id" data-bind="text: id"></label>
-						<label class="order" data-bind="text: displayOrder"></label>
-						<label class="name" data-bind="text: typeName"></label>
-						<label class="date" data-bind="text: date"></label>
-						<label class="time" data-bind="text: time"></label>
-						<label class="suspend" data-bind="text: suspend"></label>
-						<label class="sort" data-bind="text: sort"></label>
+						<label class="id"><span data-bind="text: id"></span><input class="filter" type="checkbox" applyTo="events" data-bind="checked: _filterCondition, event: { change: function(data,event) {$root.checked(data, event, 'id', $parent);} }" /></label>
+						<label class="order"><span data-bind="text: displayOrder"></span><input class="filter" type="checkbox" applyTo="events" data-bind="checked: _filterCondition, event: { change: function(data,event) {$root.checked(data, event, 'displayOrder', $parent);} }" /></label>
+						<label class="name"><span data-bind="text: typeName"></span><input class="filter" type="checkbox" applyTo="events" data-bind="checked: _filterCondition, event: { change: function(data,event) {$root.checked(data, event, 'typeName', $parent);} }" /></label>
+						<label class="date"><span data-bind="text: date"></span><input class="filter" type="checkbox" applyTo="events" data-bind="checked: _filterCondition, event: { change: function(data,event) {$root.checked(data, event, 'date', $parent);} }" /></label>
+						<label class="time"><span data-bind="text: time"></span><input class="filter" type="checkbox" applyTo="events" data-bind="checked: _filterCondition, event: { change: function(data,event) {$root.checked(data, event, 'time', $parent);} }" /></label>
+						<label class="suspend"><span data-bind="text: suspend"></span><input class="filter" type="checkbox" applyTo="events" data-bind="checked: _filterCondition, event: { change: function(data,event) {$root.checked(data, event, 'suspend', $parent);} }" /></label>
+						<label class="sort"><span data-bind="text: sort"></span><input class="filter" type="checkbox" applyTo="events" data-bind="checked: _filterCondition, event: { change: function(data,event) {$root.checked(data, event, 'sort', $parent);} }" /></label>
 						<label class="status"><span data-bind="text: status"></span><input class="filter" type="checkbox" applyTo="events" data-bind="checked: _filterCondition, event: { change: function(data,event) {$root.checked(data, event, 'status', $parent);} }" /></label>
 					</div>
 				</div>

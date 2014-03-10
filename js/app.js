@@ -249,9 +249,17 @@ function($,_,ko,U, List) {
 			if(lastTarget) {
 				lastTarget._filterCondition(false);
 			}
+			parent._filterVisible(true);
 			parent._filterField(status);
 			parent._filterValue(model[status]());
 			this._filterElement(model);
+		},
+		
+		removeFilter: function(model) {
+			console.log("[MainViewModel:removeFilter]", arguments);
+			model._filterField("");
+			model._filterValue("");
+			model._filterVisible(false);
 		}
 	};
 	

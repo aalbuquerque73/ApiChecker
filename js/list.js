@@ -7,6 +7,7 @@ function(_,ko,U) {
 		this._selected = ko.observable(null);
 		this._sortField = ko.observable("");
 		this._visible = ko.observable(true);
+		this._filterVisible = ko.observable(false);
 		this._filterCondition = ko.observable(false);
 		this._filterField = ko.observable("");
 		this._filterValue = ko.observable("");

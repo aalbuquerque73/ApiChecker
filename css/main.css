@@ -57,6 +57,7 @@ div div {
 	display: table;
 	table-layout: fixed;
 	width: 100%;
+	position: relative;
 }
 .panel .pane {
 	/*border: #006600 solid 1px;*/
@@ -93,6 +94,7 @@ div div {
 	background-color: -webkit-linear-gradient(top, #62bb47 0%,#539f3d 100%);
 	background-color: #539f3d;
 	color: #ffffff;
+	border: red solid 1px;
 }
 .arrow {
 	position: absolute;
@@ -124,10 +126,37 @@ div div {
 	height: 14px;
 	vertical-align: middle;
 }
+.remove-filter {
+	position: absolute;
+	display: inline-block;
+	top: 0;
+	right: 0;
+	margin: 0;
+	vertical-align: middle;
+	color: #ffffff;
+}
+.remove-filter button {
+	font-size: 10px;
+	background-color: transparent;
+	border: none;
+	margin: 0;
+	padding: 0;
+	color: #ffffff;
+	box-shadow: 0px 3px 5px #000;
+	text-shadow: 0 -1px 0 #000;
+	-webkit-transition: all 150ms ease;
+	transition: all 150ms ease;
+}
+.remove-filter button:active {
+	-webkit-transform: translateY(3px);	
+	transform: translateY(3px);
+	box-shadow: 0px 0px 0px #000;
+	text-shadow: 0 0px 0 #000;
+}
 .hover:hover {
 	background-color: rgba(127,127,127, .5);
 }
-label:hover .filter {
+.hover:hover .filter {
 	display: inline-block;
 }
 .selected .arrow {

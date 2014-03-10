@@ -5,18 +5,33 @@ function(_,ko,U) {
 		this._data = {};
 		this._order = order;
 		this._selected = ko.observable(null);
+		this._sortField = ko.observable("");
 		this._visible = ko.observable(true);
 		this._filterCondition = ko.observable(false);
+		this._filterField = ko.observable("");
 		this._filterValue = ko.observable("");
 		options = options || {};
 		var self = this;
 		_.each(this.defs, function(key) {
 			if(U.type(key)=="object") {
 				if(U.type(key.properties)=="array" && U.type(key.element)=="string") {
+					console.log("[List::option]", options[key.key]);
 					self[key.key] = List.create(key.properties, object.find(key.element), options);
 					if(options.hasOwnProperty(key.key) && U.type(options[key.key])=="function") {
+						console.log("[List::option*function]", options[key.key]);
 						self['__'+key.key] = self[key.key];
 						self[key.key] = ko.computed(options[key.key], self, {deferEvaluation :true});
+					}
+					else if(options.hasOwnProperty(key.key) && U.type(options[key.key])=="object"
+						&& U.type(options[key.key].read)=="function") {
+						self['__'+key.key] = self[key.key];
+						console.log("[List::option*object]", options[key.key], self['__'+key.key]);
+						self[key.key] = ko.computed({
+							read: options[key.key].read,
+							write: options[key.key].write,
+							deferEvaluation :true,
+							owner: self
+						});
 					}
 				}
 				return;

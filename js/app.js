@@ -67,13 +67,43 @@ function($,_,ko,U, List) {
 						response.find('coupon'),
 						{
 							filter: function() {
-								console.log("[MainViewModel:List:filter]", arguments, this);
+								console.log("[MainViewModel:List:filter]", arguments, this._filterCondition(), this._filterField(), this._filterValue());
 								//this._filterValue();
 							},
 							events: function() {
 								console.log("[MainViewModel:List:events]", arguments, this);
+								var filter = {
+									field: ko.unwrap(this._filterField()),
+									value: ko.unwrap(this._filterValue())
+								};
+								console.log("[MainViewModel:List:events]", filter);
 								var events = [];
-								return this.__events();
+								_.each(this.__events(), function(item) {
+									if(""==filter.field || (item[filter.field]()==filter.value)) {
+										this.push(item);
+									}
+								}, events);
+								var target = ko.unwrap(this._selected);
+								if (!target) {
+									console.log("[MainViewModel:List:events] sorting on insert order");
+									events.sort(function(left, right) {
+										return (left._order==right._order?0:left._order<right._order?-1:1);
+									});
+								} else if(target.hasClass('on2')) {
+									var field = target.attr('rel');
+									console.log("[MainViewModel:List:events] sorting on", field, "descending order");
+									events.sort(function(left, right) {
+										return ko.unwrap(right[field]).localeCompare(ko.unwrap(left[field]));
+									});
+								} else if (target.hasClass("on1")) {
+									var field = target.attr('rel');
+									console.log("[MainViewModel:List:events] sorting on", field, "ascending order");
+									events.sort(function(left, right) {
+										return ko.unwrap(left[field]).localeCompare(ko.unwrap(right[field]));
+									});
+								}
+								
+								return events;
 							}
 						})
 			});
@@ -131,6 +161,8 @@ function($,_,ko,U, List) {
 			var model = this;
 			this.url = ko.observable();
 			this.response = ko.observableArray();
+			this._filterElement = ko.observable(null);
+			
 			ko.bindingHandlers.dropzone = {
 				init: function(element, valueAccessor) {
 					var $element = $(element);
@@ -188,9 +220,8 @@ function($,_,ko,U, List) {
 		
 		sort: function(object, event) {
 			var target = $(event.target);
-			var field = target.attr('rel');
 			var applyTo = target.attr('applyTo');
-			console.log("[ViewModel:sort]", arguments, field, applyTo);
+			console.log("[ViewModel:sort]", arguments, applyTo);
 			var selected = ko.unwrap(this._selected);
 			if(selected && !selected.is(target)) {
 				console.log("[ViewModel:sort]", "cleanup", selected);
@@ -199,28 +230,28 @@ function($,_,ko,U, List) {
 			if(!target.hasClass('on1')) {
 				console.log("[ViewModel:sort]", "setting 'on1' in", target);
 				target.addClass("on1");
-				this[applyTo].sort(function(left, right) {
-					return ko.unwrap(left[field]).localeCompare(ko.unwrap(right[field]));
-				});
 			} else if(!target.hasClass('on2')) {
 				console.log("[ViewModel:sort]", "setting 'on2' in", target);
 				target.addClass("on2");
-				this[applyTo].sort(function(left, right) {
-					return ko.unwrap(right[field]).localeCompare(ko.unwrap(left[field]));
-				});
 			} else {
 				console.log("[ViewModel:sort]", "clearing 'on*' in", target);
 				target.removeClass("on1 on2");
-				this[applyTo].sort(function(left, right) {
-					return (left._order==right._order?0:left._order<right._order?-1:1);
-				});
 				target = null;
 			}
 			this._selected(target);
 		},
 		
-		checked: function() {
-			console.log("[MainViewModel:checked]", arguments);
+		checked: function(model, event, status, parent) {
+			var target = $(event.target);
+			var applyTo = target.attr('applyTo');
+			console.log("[MainViewModel:checked]", arguments, applyTo);
+			var lastTarget = ko.unwrap(this._filterElement());
+			if(lastTarget) {
+				lastTarget._filterCondition(false);
+			}
+			parent._filterField(status);
+			parent._filterValue(model[status]());
+			this._filterElement(model);
 		}
 	};
 	

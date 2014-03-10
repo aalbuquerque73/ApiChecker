@@ -81,7 +81,7 @@
 						<label class="time" data-bind="text: time"></label>
 						<label class="suspend" data-bind="text: suspend"></label>
 						<label class="sort" data-bind="text: sort"></label>
-						<label class="status"><span data-bind="text: status"></span><input class="filter" type="checkbox" data-bind="checked: _filterCondition, event: { change: $root.checked.bind($data, 'status') }" /></label>
+						<label class="status"><span data-bind="text: status"></span><input class="filter" type="checkbox" applyTo="events" data-bind="checked: _filterCondition, event: { change: function(data,event) {$root.checked(data, event, 'status', $parent);} }" /></label>
 					</div>
 				</div>
 			</div>
